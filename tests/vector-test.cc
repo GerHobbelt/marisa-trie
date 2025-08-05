@@ -396,16 +396,24 @@ void TestBitVector() {
 
 }  // namespace
 
-int main() try {
-  TestPopcount();
-  TestRankIndex();
 
-  TestVector();
-  TestFlatVector();
-  TestBitVector();
+#if defined(BUILD_MONOLITHIC)
+ #define main marisa_vector_test_main
+#endif
 
-  return 0;
-} catch (const std::exception &ex) {
-  std::cerr << ex.what() << "\n";
-  throw;
+extern "C"
+int main(void) {
+  try {
+    TestPopcount();
+    TestRankIndex();
+
+    TestVector();
+    TestFlatVector();
+    TestBitVector();
+
+    return 0;
+  } catch (const std::exception &ex) {
+    std::cerr << ex.what() << "\n";
+    throw;
+  }
 }

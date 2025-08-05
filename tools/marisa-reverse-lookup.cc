@@ -77,7 +77,13 @@ int reverse_lookup(const char *const *args, std::size_t num_args) {
 
 }  // namespace
 
-int main(int argc, char *argv[]) {
+
+#if defined(BUILD_MONOLITHIC)
+ #define main marisa_reverse_lookup_main
+#endif
+
+extern "C"
+int main(int argc, const char **argv) {
   std::ios::sync_with_stdio(false);
 
   ::cmdopt_option long_options[] = {{"mmap-dictionary", 0, nullptr, 'm'},

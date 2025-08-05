@@ -469,13 +469,21 @@ void TestTrie() {
 
 }  // namespace
 
-int main() try {
-  TestEmptyTrie();
-  TestTinyTrie();
-  TestTrie();
 
-  return 0;
-} catch (const std::exception &ex) {
-  std::cerr << ex.what() << "\n";
-  throw;
+#if defined(BUILD_MONOLITHIC)
+ #define main marisa_lib_test_main
+#endif
+
+extern "C"
+int main(void) {
+  try {
+    TestEmptyTrie();
+    TestTinyTrie();
+    TestTrie();
+
+    return 0;
+  } catch (const std::exception &ex) {
+    std::cerr << ex.what() << "\n";
+    throw;
+  }
 }

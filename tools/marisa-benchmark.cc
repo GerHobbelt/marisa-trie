@@ -372,7 +372,13 @@ int benchmark(const char *const *args, std::size_t num_args) try {
 
 }  // namespace
 
-int main(int argc, char *argv[]) {
+
+#if defined(BUILD_MONOLITHIC)
+ #define main marisa_benchmark_main
+#endif
+
+extern "C" 
+int main(int argc, const char **argv) {
   std::ios::sync_with_stdio(false);
 
   ::cmdopt_option long_options[] = {{"min-num-tries", 1, nullptr, 'N'},

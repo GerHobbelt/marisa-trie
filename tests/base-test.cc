@@ -332,16 +332,24 @@ void TestAgent() {
 
 }  // namespace
 
-int main() try {
-  TestSwap();
-  TestException();
-  TestKey();
-  TestKeyset();
-  TestQuery();
-  TestAgent();
 
-  return 0;
-} catch (const std::exception &ex) {
-  std::cerr << ex.what() << "\n";
-  throw;
+#if defined(BUILD_MONOLITHIC)
+#define main   marisa_base_test_main
+#endif
+
+extern "C"
+int main(void) {
+  try {
+    TestSwap();
+    TestException();
+    TestKey();
+    TestKeyset();
+    TestQuery();
+    TestAgent();
+
+    return 0;
+  } catch (const std::exception &ex) {
+    std::cerr << ex.what() << "\n";
+    throw;
+  }
 }

@@ -489,19 +489,27 @@ void TestState() {
 
 }  // namespace
 
-int main() try {
-  TestConfig();
-  TestHeader();
-  TestKey();
-  TestRange();
-  TestEntry();
-  TestTextTail();
-  TestBinaryTail();
-  TestHistory();
-  TestState();
 
-  return 0;
-} catch (const std::exception &ex) {
-  std::cerr << ex.what() << "\n";
-  throw;
+#if defined(BUILD_MONOLITHIC)
+ #define main marisa_trie_test_main
+#endif
+
+extern "C"
+int main(void) {
+  try {
+    TestConfig();
+    TestHeader();
+    TestKey();
+    TestRange();
+    TestEntry();
+    TestTextTail();
+    TestBinaryTail();
+    TestHistory();
+    TestState();
+
+    return 0;
+  } catch (const std::exception &ex) {
+    std::cerr << ex.what() << "\n";
+    throw;
+  }
 }

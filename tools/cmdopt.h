@@ -41,7 +41,7 @@ struct cmdopt_t {
 };
 
 // cmdopt_init() initializes a cmdopt_t for successive cmdopt_next()s.
-extern void cmdopt_init(cmdopt_t *h, int argc, char **argv,
+extern void cmdopt_init(cmdopt_t *h, int argc, const char **argv,
                         const char *optstring, const cmdopt_option *longopts);
 
 // cmdopt_get() analyzes command line arguments and gets the next option.

@@ -260,14 +260,22 @@ void TestStream() {
 
 }  // namespace
 
-int main() try {
-  TestFilename();
-  TestFd();
-  TestFile();
-  TestStream();
 
-  return 0;
-} catch (const std::exception &ex) {
-  std::cerr << ex.what() << "\n";
-  throw;
+#if defined(BUILD_MONOLITHIC)
+ #define main marisa_io_test_main
+#endif
+
+extern "C"
+int main(void) {
+  try {
+    TestFilename();
+    TestFd();
+    TestFile();
+    TestStream();
+
+    return 0;
+  } catch (const std::exception &ex) {
+    std::cerr << ex.what() << "\n";
+    throw;
+  }
 }
