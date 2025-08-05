@@ -276,9 +276,7 @@ class Vector {
   }
 
   static std::unique_ptr<std::byte[]> allocBuffer(size_t len) {
-    std::unique_ptr<std::byte[]> result{new (std::nothrow)
-                                            std::byte[sizeof(T) * len]};
-    MARISA_THROW_IF(result == nullptr, std::runtime_error);
+    std::unique_ptr<std::byte[]> result{new std::byte[sizeof(T) * len]};
     return result;
   }
 
