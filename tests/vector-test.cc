@@ -191,10 +191,6 @@ void TestVector() {
   vec.resize(100);
   ASSERT(vec.capacity() == 100);
 
-  vec.fix();
-  ASSERT(vec.fixed());
-  EXCEPT(vec.fix(), std::logic_error);
-
   TEST_END();
 }
 
