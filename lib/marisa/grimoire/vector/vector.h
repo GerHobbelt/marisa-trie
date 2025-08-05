@@ -68,7 +68,7 @@ class Vector {
   }
 
   void push_back(const T &x) {
-    assert(!fixed_);
+    assert(!fixed());
     assert(size_ < max_size());
     reserve(size_ + 1);
     new (&objs()[size_]) T(x);
@@ -76,7 +76,7 @@ class Vector {
   }
 
   void pop_back() {
-    assert(!fixed_);
+    assert(!fixed());
     assert(size_ != 0);
     --size_;
     static_assert(std::is_trivially_destructible_v<T>);
@@ -84,7 +84,7 @@ class Vector {
 
   // resize() assumes that T's placement new does not throw an exception.
   void resize(std::size_t size) {
-    assert(!fixed_);
+    assert(!fixed());
     reserve(size);
     for (std::size_t i = size_; i < size; ++i) {
       new (&objs()[i]) T;
@@ -95,7 +95,7 @@ class Vector {
 
   // resize() assumes that T's placement new does not throw an exception.
   void resize(std::size_t size, const T &x) {
-    assert(!fixed_);
+    assert(!fixed());
     reserve(size);
     if (size > size_) {
       std::fill_n(objs() + size_, size - size_, x);
@@ -106,7 +106,7 @@ class Vector {
   }
 
   void reserve(std::size_t capacity) {
-    assert(!fixed_);
+    assert(!fixed());
     if (capacity <= capacity_) {
       return;
     }
@@ -123,7 +123,7 @@ class Vector {
   }
 
   void shrink() {
-    MARISA_THROW_IF(fixed_, std::logic_error);
+    MARISA_THROW_IF(fixed(), std::logic_error);
     if (size_ != capacity_) {
       reallocate(size_);
     }
@@ -149,25 +149,25 @@ class Vector {
   }
 
   T *begin() {
-    assert(!fixed_);
+    assert(!fixed());
     return objs();
   }
   T *end() {
-    assert(!fixed_);
+    assert(!fixed());
     return objs() + size_;
   }
   T &operator[](std::size_t i) {
-    assert(!fixed_);
+    assert(!fixed());
     assert(i < size_);
     return objs()[i];
   }
   T &front() {
-    assert(!fixed_);
+    assert(!fixed());
     assert(size_ != 0);
     return objs()[0];
   }
   T &back() {
-    assert(!fixed_);
+    assert(!fixed());
     assert(size_ != 0);
     return objs()[size_ - 1];
   }
@@ -278,7 +278,7 @@ class Vector {
   static std::unique_ptr<std::byte[]> allocBuffer(size_t len) {
     std::unique_ptr<std::byte[]> result{new (std::nothrow)
                                             std::byte[sizeof(T) * len]};
-    MARISA_THROW_IF(result == nullptr, MARISA_MEMORY_ERROR);
+    MARISA_THROW_IF(result == nullptr, std::runtime_error);
     return result;
   }
 
