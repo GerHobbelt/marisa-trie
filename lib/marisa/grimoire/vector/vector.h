@@ -121,13 +121,13 @@ class Vector {
         new_capacity = capacity_ * 2;
       }
     }
-    realloc(new_capacity);
+    reallocate(new_capacity);
   }
 
   void shrink() {
     MARISA_THROW_IF(fixed_, std::logic_error);
     if (size_ != capacity_) {
-      realloc(size_);
+      reallocate(size_);
     }
   }
 
@@ -252,7 +252,7 @@ class Vector {
 
   // Copies current elements to new buffer of size `new_capacity`.
   // Requires `new_capacity >= size_`.
-  void realloc(std::size_t new_capacity) {
+  void reallocate(std::size_t new_capacity) {
     assert(new_capacity >= size_);
     assert(new_capacity <= max_size());
 
